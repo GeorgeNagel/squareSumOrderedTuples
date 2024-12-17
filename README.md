@@ -35,10 +35,13 @@ We would like to calculate the resonant frequencies `f(m,n,p)` in order where (m
 ## Usage
 ```
 # Ask for help
-python square_sum_ordered_tuples.py --help
+> python square_sum_ordered_tuples.py --help
 
 # Generate the first 50 list of length-4 tuples, ordered by sum of squares
-python ordered_squares.py -n 50 -l 4
+> python square_sum_ordered_tuples.py -n 50 -l 4
+
+Generating the 50 tuples of size 4 ordered by the sum of squares
+[(1, 1, 1, 1), (1, 1, 1, 2), (1, 1, 2, 1), (1, 2, 1, 1), (2, 1, 1, 1), (1, 1, 2, 2), (1, 2, 1, 2), (1, 2, 2, 1), (2, 1, 1, 2), (2, 1, 2, 1), (2, 2, 1, 1), (1, 1, 1, 3), (1, 1, 3, 1), (1, 3, 1, 1), (3, 1, 1, 1), (1, 2, 2, 2), (2, 1, 2, 2), (2, 2, 1, 2), (2, 2, 2, 1), (1, 1, 2, 3), (1, 1, 3, 2), (1, 2, 1, 3), (1, 2, 3, 1), (1, 3, 1, 2), (1, 3, 2, 1), (2, 1, 1, 3), (2, 1, 3, 1), (2, 3, 1, 1), (3, 1, 1, 2), (3, 1, 2, 1), (3, 2, 1, 1), (2, 2, 2, 2), (1, 2, 2, 3), (1, 2, 3, 2), (1, 3, 2, 2), (2, 1, 2, 3), (2, 1, 3, 2), (2, 2, 1, 3), (2, 2, 3, 1), (2, 3, 1, 2), (2, 3, 2, 1), (3, 1, 2, 2), (3, 2, 1, 2), (3, 2, 2, 1), (1, 1, 1, 4), (1, 1, 4, 1), (1, 4, 1, 1), (4, 1, 1, 1), (1, 1, 3, 3), (1, 3, 1, 3), (1, 3, 3, 1), (3, 1, 1, 3), (3, 1, 3, 1), (3, 3, 1, 1)]
 ```
 
 # References
