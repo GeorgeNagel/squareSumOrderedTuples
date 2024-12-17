@@ -1,4 +1,6 @@
+import argparse
 import heapq
+import itertools
 
 
 def list_to_string(_list):
@@ -52,53 +54,85 @@ def list_is_strictly_increasing(elements):
     return True
 
 
-def generate_ordered_squares(m, n, initial_elements=None):
+def unique_permutations(elements):
     """
-    Generate the first m unordered sets of size n (a, b, c, ..., n) ranked by
-    the sum of the squares of their elements, in non-decreasing order
-    where (a <= b <= c ... <= n)
-    initial_elements is the starting array, i.e. all solutions will be (a' >= a, b' >= b, ...)
+    Return the ordered list of unique permutations of elements
+    """
+    list_of_permutations = itertools.permutations(elements)
+    unique_permutations = set(list_of_permutations)
+    list_of_unique_permutations = list(unique_permutations)
+    return sorted(list_of_unique_permutations)
+
+
+def generate_ordered_squares(
+    number_of_lists_to_generate, integer_list_size, initial_elements=None
+):
+    """
+    Generate the first `number_of_lists_to_generate` ordered sets of size n (a, b, c, ..., `integer_list_size`) ranked by
+    the sum of the squares of their elements, in non-decreasing order.
+    initial_elements is the starting array, i.e. all solutions will be (a' >= a, b' >= b, ...).
+    The results list will be exhaustive of all permutations of integers that satisfy the above constraints.
     """
 
+    # Use a min heap to keep track of the list of integers with the smalled sum of squares
     heap = []
-    result = []
+    # The list of integer lists
+    ordered_lists = []
+    # Keep track of which integer lists we have already added to the heap
     visited = set()
 
     # Initial set of integers
     if not initial_elements:
         initial_elements = []
-        for i in range(n):
-            initial_elements.append(0)
+        for i in range(integer_list_size):
+            initial_elements.append(1)
 
     hashable_list_of_initial_elements = list_to_string(initial_elements)
     heapq.heappush(heap, (0, hashable_list_of_initial_elements))
     visited.add(hashable_list_of_initial_elements)
 
-    while len(result) < m:
+    while len(ordered_lists) < number_of_lists_to_generate:
         # Pop the smallest element
         current_sum, string_list_of_integers = heapq.heappop(heap)
         list_of_integers = string_to_list(string_list_of_integers)
-        result.append(list_of_integers)
+        # Add all unique permutations of this unordered set to the output list
+        permutations_of_integers = unique_permutations(list_of_integers)
+        ordered_lists.extend(permutations_of_integers)
 
         # Generate new candidates
         for next_elements in list_of_incremented_sets(list_of_integers):
             hashable_list_of_new_elements = list_to_string(next_elements)
-            # print("new", hashable_list_of_new_elements)
             if (
                 list_is_strictly_increasing(next_elements)
                 and hashable_list_of_new_elements not in visited
             ):
-                # print("not in visited", hashable_list_of_new_elements)
                 new_sum = sum_of_squares(next_elements)
-                # print("new sum", new_sum)
 
                 heapq.heappush(heap, (new_sum, hashable_list_of_new_elements))
                 visited.add(hashable_list_of_new_elements)
-                # print("visited", visited)
 
-    return result
+    return ordered_lists
 
 
-# Generate the first 15 4-ples
-ordered_solutions = generate_ordered_squares(20, 4, initial_elements=[1, 1, 1, 1])
-print(ordered_solutions)
+ordered_solutions = generate_ordered_squares(20, 3, initial_elements=[1, 1, 1])
+
+
+if __name__ == "__main__":
+    # Parse arguments
+    parser = argparse.ArgumentParser(
+        prog="Generate a list of positive integers, ordered by the sum of their squares"
+    )
+    parser.add_argument("-l", "--length", help="The number of elements in each tuple")
+    parser.add_argument("-n", "--number", help="The number of tuples to generate")
+    args = parser.parse_args()
+
+    # Normalize arguments
+    length = int(args.length or 2)
+    number = int(args.number or 100)
+
+    print(
+        f"Generating the {number} tuples of size {length} ordered by the sum of squares"
+    )
+
+    ordered_list = generate_ordered_squares(number, length)
+    print(ordered_list)
