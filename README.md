@@ -35,7 +35,7 @@ We would like to calculate the resonant frequencies `f(m,n,p)` in order where (m
 ## Usage
 ```
 # Ask for help
-python ordered_squares.py --help
+python square_sum_ordered_tuples.py --help
 
 # Generate the first 50 list of length-4 tuples, ordered by sum of squares
 python ordered_squares.py -n 50 -l 4
